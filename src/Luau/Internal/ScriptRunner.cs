@@ -51,7 +51,7 @@ internal sealed class ScriptRunner : IValueTaskSource<int>, IDisposable
 
             for (int i = nResults - 1; i >= 0; i--)
             {
-                destination[i] = state.Pop();
+                destination[i] = state.ToValue(-i);
             }
 
             return nResults;
@@ -72,7 +72,7 @@ internal sealed class ScriptRunner : IValueTaskSource<int>, IDisposable
             var results = new LuauValue[nResults];
             for (int i = nResults - 1; i >= 0; i--)
             {
-                results[i] = state.Pop();
+                results[i] = state.ToValue(-i);
             }
 
             return results;
@@ -141,7 +141,7 @@ internal sealed class ScriptRunner : IValueTaskSource<int>, IDisposable
 
             for (int i = nResults - 1; i >= 0; i--)
             {
-                destination.Span[i] = state.Pop();
+                destination.Span[i] = state.ToValue(-1);
             }
 
             return nResults;
@@ -163,7 +163,7 @@ internal sealed class ScriptRunner : IValueTaskSource<int>, IDisposable
             var results = new LuauValue[nResults];
             for (int i = nResults - 1; i >= 0; i--)
             {
-                results[i] = state.Pop();
+                results[i] = state.ToValue(-1);
             }
 
             return results;
