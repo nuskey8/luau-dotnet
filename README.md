@@ -1,3 +1,5 @@
+# This library is deprecated and will soon be archived. Use [NuLua](https://github.com/nuskey8/NuLua) instead.
+
 # Luau for .NET
  High-level Luau bindings for .NET and Unity
 
