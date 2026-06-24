@@ -1,10 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net9.0;net8.0;netstandard2.1</TargetFrameworks>
+    <TargetFrameworks>net8.0;net9.0;net10.0;netstandard2.1</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <LangVersion>13</LangVersion>
+    <LangVersion>14</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 
     <!-- NuGet Packaging -->
@@ -26,8 +26,8 @@
   </ItemGroup>
 
   <ItemGroup Condition="$(TargetFramework) == 'netstandard2.1'">
-    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" />
-    <PackageReference Include="System.Text.Json" Version="9.0.6" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
+    <PackageReference Include="System.Text.Json" Version="10.0.3" />
   </ItemGroup>
 
   <ItemGroup>
