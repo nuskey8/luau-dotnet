@@ -4,16 +4,20 @@ on:
   workflow_call:
   workflow_dispatch:
 
-
 jobs:
   build:
     name: Build ${{ matrix.target }} on Windows
-    runs-on: windows-latest
+    runs-on: ${{ matrix.runs-on }}
     continue-on-error: true
     strategy:
       matrix:
         include:
-          - target: x86_64-pc-windows-gnu
+          - target: x86_64-pc-windows-msvc
+            arch: x64
+            runs-on: windows-latest
+          - target: aarch64-pc-windows-msvc
+            arch: arm64
+            runs-on: windows-11-arm
 
     steps:
       - name: Checkout repository
@@ -26,12 +30,10 @@ jobs:
         with:
           targets: ${{ matrix.target }}
 
-      - name: Set up MinGW
-        id: mingw_setup
-        uses: egor-tensin/setup-mingw@v2
+      - name: Set up MSVC
+        uses: TheMrMilchmann/setup-msvc-dev@v4
         with:
-          platform: x64
-          version: 12.2.0
+          arch: ${{ matrix.arch }}
 
       - name: Install CMake
         uses: jwlawson/actions-setup-cmake@v1
@@ -40,10 +42,19 @@ jobs:
         working-directory: native/luau-ffi
         env:
           CARGO_BUILD_TARGET: ${{ matrix.target }}
-          CC: ${{ steps.mingw_setup.outputs.gcc }}
-          CXX: ${{ steps.mingw_setup.outputs.gxx }}
         run: |
           cargo build --release --target ${{ matrix.target }}
+
+      - name: Rename build outputs
+        shell: pwsh
+        run: |
+          $dir = "native/luau-ffi/target/${{ matrix.target }}/release"
+          if (Test-Path "$dir/luau.dll") { Rename-Item "$dir/luau.dll" -NewName "libluau.dll" -Force }
+          if (Test-Path "$dir/luau.pdb") { Rename-Item "$dir/luau.pdb" -NewName "libluau.pdb" -Force }
+          if (Test-Path "$dir/luau.lib") { Rename-Item "$dir/luau.lib" -NewName "libluau.lib" -Force }
+          if (Test-Path "$dir/luau.dll.lib") { Rename-Item "$dir/luau.dll.lib" -NewName "libluau.dll.lib" -Force }
+          if (Test-Path "$dir/luau.dll.exp") { Rename-Item "$dir/luau.dll.exp" -NewName "libluau.dll.exp" -Force }
+          if (Test-Path "$dir/luau.d") { Rename-Item "$dir/luau.d" -NewName "libluau.d" -Force }
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4

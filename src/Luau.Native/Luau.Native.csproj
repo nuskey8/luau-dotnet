@@ -22,6 +22,8 @@
       PackagePath="runtimes\osx-arm64\native\" CopyToOutputDirectory="Always" />
     <None Include="runtimes\osx-x64\native\libluau.dylib" Pack="true"
       PackagePath="runtimes\osx-x64\native\" CopyToOutputDirectory="Always" />
+    <None Include="runtimes\win-arm64\native\libluau.dll" Pack="true"
+      PackagePath="runtimes\win-arm64\native\" CopyToOutputDirectory="Always" />
     <None Include="runtimes\win-x64\native\libluau.dll" Pack="true"
       PackagePath="runtimes\win-x64\native\" CopyToOutputDirectory="Always" />
   </ItemGroup>

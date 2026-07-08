@@ -36,7 +36,7 @@ fn main() {
     if target == "aarch64-unknown-linux-gnu" {
         println!("cargo:rustc-link-search=native={}/build", dst.display());
         println!("cargo:rustc-link-lib=dylib=stdc++");
-    } else if target == "x86_64-pc-windows-msvc" {
+    } else if target == "x86_64-pc-windows-msvc" || target == "aarch64-pc-windows-msvc" {
         println!(
             "cargo:rustc-link-search=native={}/build/Release",
             dst.display()
@@ -147,7 +147,7 @@ fn new_cmake_config() -> cmake::Config {
 
     let target = build_target::target_triple().unwrap();
 
-    if target == "x86_64-pc-windows-msvc" {
+    if target == "x86_64-pc-windows-msvc" || target == "aarch64-pc-windows-msvc" {
         if let Ok(cc) = std::env::var("CC") {
             if !cc.is_empty() {
                 config.define("CMAKE_C_COMPILER", cc);
